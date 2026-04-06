@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Video Gallery</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    .gallery { display: flex; flex-wrap: wrap; gap: 15px; }
+    .video-card { cursor: pointer; width: 200px; text-align: center; }
+    .video-card img { width: 100%; border-radius: 8px; }
+    #player { width: 640px; height: 360px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Google Drive Video Gallery</h1>
+  <div class="gallery" id="gallery"></div>
+  
+
+<iframe id="player" src="" width="600" height="480"></iframe>
+
+  <script>
+    async function loadVideos() {
+      const res = await fetch("/api/videos");
+      const videos = await res.json();
+      console.log(videos);
+      const gallery = document.getElementById("gallery");
+
+      videos.forEach(video => {
+        const card = document.createElement("div");
+        card.className = "video-card";
+
+        const img = document.createElement("img");
+        img.src = video.thumbnail;
+        img.alt = video.name;
+
+        const name = document.createElement("div");
+        name.innerText = video.name;
+
+        card.appendChild(img);
+        card.appendChild(name);
+
+        card.onclick = () => {
+  const videoPlayer = document.getElementById("player");
+
+  videoPlayer.src = `https://drive.google.com/file/d/${video.id}/preview?autoplay=1`;
+};
+
+        gallery.appendChild(card);
+      });
+    }
+
+    loadVideos();
+  </script>
+</body>
+</html>

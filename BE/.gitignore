@@ -1,0 +1,7 @@
+node_modules/
+credentials.json
+*.json
+!package.json
+public/thumbcache/
+sample.mp4
+.env
